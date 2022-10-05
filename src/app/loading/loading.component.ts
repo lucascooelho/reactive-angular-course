@@ -7,8 +7,7 @@ import {Observable} from 'rxjs';
   styleUrls: ['./loading.component.css']
 })
 export class LoadingComponent implements OnInit {
-
-
+  
   constructor() {
 
   }
@@ -16,6 +15,4 @@ export class LoadingComponent implements OnInit {
   ngOnInit() {
 
   }
-
-
 }
