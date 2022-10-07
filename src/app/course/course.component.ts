@@ -2,8 +2,14 @@ import { CoursesServices } from './../services/courses.service';
 import { Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../model/course';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {Lesson} from '../model/lesson';
+import { map, startWith, tap } from 'rxjs/operators';
+
+interface CourseData {
+  course: Course;
+  lessos: Lesson[];
+}
 
 @Component({
   selector: 'course',
@@ -11,8 +17,7 @@ import {Lesson} from '../model/lesson';
   styleUrls: ['./course.component.css']
 })
 export class CourseComponent implements OnInit {
-  course$: Observable<Course>;
-  lessons$: Observable<Lesson[]>;
+  data$: Observable<CourseData>;
 
   constructor(private route: ActivatedRoute, private coursesServices: CoursesServices) {
   }
@@ -20,9 +25,21 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
     const courseId = parseInt(this.route.snapshot.paramMap.get("courseId"));
 
-    this.course$ = this.coursesServices.loadCourseById(courseId);
+    const course$ = this.coursesServices.loadCourseById(courseId)
+      .pipe(startWith(null));
+    const lessons$ = this.coursesServices.loadAllCourseLessons(courseId)
+      .pipe(startWith([]));
 
-    this.lessons$ = this.coursesServices.loadAllCourseLessons(courseId);
+    this.data$ = combineLatest([course$, lessons$])
+      .pipe(
+        map(([course, lessons]) => {
+          return {
+            course,
+            lessons
+          }
+        }),
+        tap(console.log)        
+      );
   }
 }
 
