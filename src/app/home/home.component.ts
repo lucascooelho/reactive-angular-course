@@ -1,10 +1,6 @@
-import { CoursesServices } from './../services/courses.service';
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {Course, sortCoursesBySeqNo} from '../model/course';
-import { Observable, throwError } from 'rxjs';
-import { map, finalize, catchError } from 'rxjs/operators';
-import { LoadingService } from '../loading/loading.service';
-import { MessagesService } from '../messages/messages.service';
+import {Course} from '../model/course';
+import { Observable } from 'rxjs';
 import { CourseStore } from '../services/courses.store';
 
 

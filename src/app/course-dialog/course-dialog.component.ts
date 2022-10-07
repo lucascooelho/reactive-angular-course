@@ -1,5 +1,4 @@
 import { CourseStore } from './../services/courses.store';
-import { catchError } from 'rxjs/operators';
 import { MessagesService } from './../messages/messages.service';
 import {
   AfterViewInit,
@@ -11,7 +10,6 @@ import { Course } from "../model/course";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import * as moment from "moment";
 import { LoadingService } from "../loading/loading.service";
-import { throwError } from 'rxjs';
 
 @Component({
   selector: "course-dialog",
@@ -30,8 +28,7 @@ export class CourseDialogComponent implements AfterViewInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CourseDialogComponent>,
     @Inject(MAT_DIALOG_DATA) course: Course,
-    private courseStore: CourseStore,
-    private messagesService: MessagesService
+    private courseStore: CourseStore
   ) {
     this.course = course;
 
